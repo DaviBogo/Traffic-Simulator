@@ -145,7 +145,6 @@ public class Malha extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Insira um "
                     + "valor válido para a quantidade máxima de carros.");
         }
-        JOptionPane.showMessageDialog(rootPane, Arrays.toString(this.malha) +"/n"+ this.carros);
     }//GEN-LAST:event_buttonIniciarActionPerformed
 
     private void buttonEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEncerrarActionPerformed
