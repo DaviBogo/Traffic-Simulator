@@ -55,7 +55,7 @@ public class MainFrame extends JFrame implements MainFrameObserver {
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setTitle("Traffic Simulator");
             this.getContentPane().setLayout(new BorderLayout(1, 2));
-            this.controller.readFile("C:\\Users\\davib\\OneDrive\\Documentos\\Git\\Traffic-Simulator\\mesh\\malha-exemplo-3.txt");
+            this.controller.readFile("C:\\Users\\davib\\OneDrive\\Documentos\\Git\\Traffic-Simulator\\mesh\\malha-exemplo-1.txt");
             this.controller.getMeshController().initMesh();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
