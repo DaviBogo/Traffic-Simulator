@@ -2,22 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.udesc.ceavi.dsd.model;
+package br.udesc.ceavi.dsd.view;
 
 /**
  *
  * @author davib
  */
-public class Road {
+public interface MainFrameObserver {
     
-    private Car car;
-    private int column; 
-    private int row;
+    public void notifyCarNumber(int carNumber);
 
-    public Road(int column, int row) {
-        this.column = column;
-        this.row = row;
-    }
-    
-    
+    public void notifySimulationOver();
+            
 }

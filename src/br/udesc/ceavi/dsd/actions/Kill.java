@@ -4,14 +4,31 @@
  */
 package br.udesc.ceavi.dsd.actions;
 
+import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.model.car.Car;
+import br.udesc.ceavi.dsd.model.road.Road;
+
 /**
  *
  * @author davib
  */
 public class Kill implements ActionInterface {
 
+    private final Road currentCarRoad;
+
+    public Kill(Road currentCarRoad) {
+        this.currentCarRoad = currentCarRoad;
+    }
+    
     @Override
     public void execute() {
+        Car car = currentCarRoad.getCar();
+        currentCarRoad.setCar(null);
+        currentCarRoad.release();
+        currentCarRoad.repaint();
+
+        car.kill();
+        SystemController.getInstance().notifyCarDied(car);
     }
 
 }

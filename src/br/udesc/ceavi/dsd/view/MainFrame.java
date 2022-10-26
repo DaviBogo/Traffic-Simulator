@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.udesc.ceavi.dsd.view;
 
+import br.udesc.ceavi.dsd.controller.SystemController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -11,25 +8,25 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 /**
  *
  * @author davib
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements MainFrameObserver {
 
-    private static final Dimension sizePrefesss = new Dimension(700, 700);
+    private static final Dimension sizePrefesss = new Dimension(800, 800);
     private JPanel jpOptions;
     private JPanel jpMesh;
     private JButton btnStop;
@@ -39,22 +36,43 @@ public class MainFrame extends JFrame {
     private JLabel lbCurrentlyNumberOfCars;
 
     private GridBagConstraints cons;
+    private SystemController controller;
+    private MeshMatrix meshMatrix;
 
     public MainFrame() {
+        controller = SystemController.getInstance();
         initFrameProperty();
         initComponnnets();
+        initListeners();
+        controller.addObserver(this);
     }
 
     private void initFrameProperty() {
-        this.setSize(sizePrefesss);
-        this.setMinimumSize(sizePrefesss);
-        this.setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Traffic Simulator");
-        this.getContentPane().setLayout(new BorderLayout(1, 2));
+        try {
+            this.setSize(sizePrefesss);
+            this.setMinimumSize(sizePrefesss);
+            this.setLocationRelativeTo(null);
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            setTitle("Traffic Simulator");
+            this.getContentPane().setLayout(new BorderLayout(1, 2));
+            this.controller.readFile("C:\\Users\\davib\\OneDrive\\Documentos\\Git\\Traffic-Simulator\\mesh\\malha-exemplo-3.txt");
+            this.controller.getMeshController().initMesh();
+        } catch (Exception ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initComponnnets() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         Container contentPane = this.getContentPane();
         this.jpOptions = new JPanel();
         this.jpMesh = new JPanel();
@@ -67,9 +85,6 @@ public class MainFrame extends JFrame {
 
         contentPane.add(jpOptions, BorderLayout.NORTH);
         contentPane.add(jpMesh, BorderLayout.CENTER);
-
-        jpOptions.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.jpMesh.setBackground(new Color(0, 0, 0));
     }
 
     private void setSizeI(JComponent c, Dimension d) {
@@ -141,10 +156,53 @@ public class MainFrame extends JFrame {
         cons.fill = GridBagConstraints.NONE;
         lbCurrentlyNumberOfCars = new JLabel("   ");
         this.jpOptions.add(lbCurrentlyNumberOfCars, cons);
+        initTableFrame();
     }
-    
+
     public void updateNumberOfCars(int numberOfCars) {
         this.lbCurrentlyNumberOfCars.setText(String.valueOf(numberOfCars));
+    }
+
+    @Override
+    public void notifyCarNumber(int carNumber) {
+        lbCurrentlyNumberOfCars.setText("" + carNumber);
+    }
+
+    @Override
+    public void notifySimulationOver() {
+        btnStart.setEnabled(true);
+        jTFNumCars.setEnabled(true);
+    }
+
+    public void initTableFrame() {
+        meshMatrix = new MeshMatrix(jpMesh);
+        JScrollPane pane = new JScrollPane();
+        pane.setViewportView(meshMatrix);
+        jpMesh.add(pane);
+    }
+    
+    private void initListeners() {
+        this.btnStart.addActionListener((e) -> btnStartListeners());
+        this.btnStop.addActionListener((e) -> btnStopListeners());
+    }
+    
+    private void btnStartListeners() {
+        jTFNumCars.setEnabled(false);
+        btnStart.setEnabled(false);
+        btnStop.setEnabled(true);
+
+        int numberOfCars = 1;
+        try{
+            numberOfCars = Integer.parseInt(jTFNumCars.getText());
+        } catch (NumberFormatException e) {
+            System.out.println("Simulação iniciará com apenas um carro");
+        }
+        controller.startSimulation(numberOfCars);
+    }
+    
+    private void btnStopListeners() {
+        btnStop.setEnabled(false);
+        controller.stopRespawn();
     }
 
 }

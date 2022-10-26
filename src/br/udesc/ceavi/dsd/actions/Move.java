@@ -4,14 +4,30 @@
  */
 package br.udesc.ceavi.dsd.actions;
 
+import br.udesc.ceavi.dsd.model.road.Road;
+
 /**
  *
  * @author davib
  */
 public class Move implements ActionInterface {
 
+    private Road beggining;
+    private Road destination;
+
+    public Move(Road beggining, Road destination) {
+        this.beggining = beggining;
+        this.destination = destination;
+    }
+
     @Override
     public void execute() {
+        destination.move(beggining.getCar());
+        beggining.setCar(null);
+        beggining.repaint();
+        destination.repaint();
+        beggining.release();
     }
-    
+
+  
 }
