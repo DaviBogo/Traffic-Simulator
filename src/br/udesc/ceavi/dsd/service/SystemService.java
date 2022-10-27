@@ -1,6 +1,5 @@
 package br.udesc.ceavi.dsd.service;
 
-import br.udesc.ceavi.dsd.factory.CrossroadFactory;
 import br.udesc.ceavi.dsd.model.car.Car;
 import br.udesc.ceavi.dsd.util.ReadMatrixFile;
 import br.udesc.ceavi.dsd.view.MainFrameObserver;
@@ -34,8 +33,6 @@ public class SystemService {
 
     private MeshService meshService;
 
-    private CrossroadFactory factory;
-
     private int carsNumber;
 
     private boolean simulationAlive;
@@ -52,7 +49,6 @@ public class SystemService {
         this.waitingCars = new HashMap<>();
         this.simulationAlive = false;
         this.observers = new ArrayList<>();
-        this.factory = new CrossroadFactory();
     }
 
     public void readFile(String text) throws Exception {
@@ -78,10 +74,6 @@ public class SystemService {
 
     public MeshService getMeshService() {
         return meshService;
-    }
-
-    public CrossroadFactory getFactory() {
-        return factory;
     }
 
     public void rebutMesh() {
