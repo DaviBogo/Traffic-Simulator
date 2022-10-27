@@ -31,7 +31,7 @@ public class MeshMatrix extends JTable implements MatrixObserver {
 
     public MeshMatrix(JPanel parent) {
         this.meshService = SystemService.getInstance().getMeshService();
-        this.meshService.attach(this);
+        this.meshService.addObserver(this);
         this.parentPanel = parent;
         startBuffert();
     }

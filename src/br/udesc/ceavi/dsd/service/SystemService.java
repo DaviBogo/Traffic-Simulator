@@ -51,6 +51,10 @@ public class SystemService {
         this.observers = new ArrayList<>();
     }
 
+    public void addObserver(MainFrameObserver aThis) {
+        this.observers.add(aThis);
+    }
+    
     public void readFile(String text) throws Exception {
         ReadMatrixFile read = new ReadMatrixFile(text);
         meshService = new MeshService(read.getMatrix());
@@ -107,10 +111,6 @@ public class SystemService {
     public void notifyCarDied(Car car) {
         carsOnMesh.remove(car.getId());
         SwingUtilities.invokeLater(() -> observers.forEach((observer) -> observer.notifyCarNumber(carsOnMesh.size())));
-    }
-
-    public void addObserver(MainFrameObserver aThis) {
-        this.observers.add(aThis);
     }
 
     private void addAutomatically() {

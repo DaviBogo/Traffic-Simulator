@@ -47,7 +47,7 @@ public class MeshService {
         setCommands();
     }
 
-    public void attach(MatrixObserver observer) {
+    public void addObserver(MatrixObserver observer) {
         this.observers.add(observer);
     }
 
