@@ -37,8 +37,8 @@ public class MeshMatrix extends JTable implements MatrixObserver {
     }
 
     public void startBuffert() {
-        this.meshImages = new BufferedImage[meshService.getColumn()][meshService.getRow()];
-        this.canvas = new BufferedImage[meshService.getColumn()][meshService.getRow()];
+        this.meshImages = new BufferedImage[meshService.getLastColumn()][meshService.getLastRow()];
+        this.canvas = new BufferedImage[meshService.getLastColumn()][meshService.getLastRow()];
         this.initializeProperties();
         initImages();
 
@@ -64,8 +64,8 @@ public class MeshMatrix extends JTable implements MatrixObserver {
     }
 
     private void initImages() {
-        for (int colunm = 0; colunm < meshService.getColumn(); colunm++) {
-            for (int row = 0; row < meshService.getRow(); row++) {
+        for (int colunm = 0; colunm < meshService.getLastColumn(); colunm++) {
+            for (int row = 0; row < meshService.getLastRow(); row++) {
                 meshImages[colunm][row] = Image.getImage((int) meshService.getRoadValue(colunm, row));
                 canvas[colunm][row] = Image.getImage((int) meshService.getRoadValue(colunm, row));
             }
@@ -78,12 +78,12 @@ public class MeshMatrix extends JTable implements MatrixObserver {
 
         @Override
         public int getColumnCount() {
-            return meshService.getColumn();
+            return meshService.getLastColumn();
         }
 
         @Override
         public int getRowCount() {
-            return meshService.getRow();
+            return meshService.getLastRow();
         }
 
         @Override
@@ -131,27 +131,27 @@ public class MeshMatrix extends JTable implements MatrixObserver {
     }
 
     @Override
-    public void printCar(int cor, int colunm, int row) {
-        BufferedImage origin = this.canvas[colunm][row];
+    public void printCar(int color, int column, int row) {
+        BufferedImage origin = this.canvas[column][row];
         Graphics2D g = origin.createGraphics();
         g.drawImage(
                 Image.replaceColor(
                         Image.getImage(Image.CAR),
-                        cor),
+                        color),
                 0, 0, null);
         g.dispose();
     }
 
     @Override
-    public void clearTableCell(int colunm, int row) {
+    public void clearTableCell(int column, int row) {
         BufferedImage newImage = new BufferedImage(
-                canvas[colunm][row].getWidth(),
-                canvas[colunm][row].getHeight(),
-                canvas[colunm][row].getType());
+                canvas[column][row].getWidth(),
+                canvas[column][row].getHeight(),
+                canvas[column][row].getType());
 
         Graphics2D g = newImage.createGraphics();
-        g.drawImage(meshImages[colunm][row], 0, 0, null);
-        this.canvas[colunm][row] = newImage;
+        g.drawImage(meshImages[column][row], 0, 0, null);
+        this.canvas[column][row] = newImage;
         g.dispose();
         this.repaint();
         parentPanel.repaint();

@@ -51,11 +51,11 @@ public class MeshService {
         this.observers.add(observer);
     }
 
-    public int getColumn() {
+    public int getLastColumn() {
         return roadMatrix.length;
     }
 
-    public int getRow() {
+    public int getLastRow() {
         return roadMatrix[0].length;
     }
 
@@ -78,8 +78,8 @@ public class MeshService {
     private void setRoadEnds() {
         deathRoads.clear();
         respawnRoads.clear();
-        for (int row = 0; row < getRow(); row++) {
-            for (int column = 0; column < getColumn(); column++) {
+        for (int row = 0; row < getLastRow(); row++) {
+            for (int column = 0; column < getLastColumn(); column++) {
                 if (roadMatrix[column][row].getValue() != 0) {
                     int side = 0;
                     int roadValue = roadMatrix[column][row].getValue();
@@ -88,9 +88,9 @@ public class MeshService {
                         side = 1;
                     } else if (row == 0) {
                         side = 2;
-                    } else if (column == getColumn() - 1) {
+                    } else if (column == getLastColumn() - 1) {
                         side = 3;
-                    } else if (row == getRow() - 1) {
+                    } else if (row == getLastRow() - 1) {
                         side = 4;
                     }
                     switch (side) {
@@ -146,8 +146,8 @@ public class MeshService {
         for (Road road : deathRoads) {
             road.addRoute(new Kill(road));
         }
-        for (int linha = 0; linha < getRow(); linha++) {
-            for (int coluna = 0; coluna < getColumn(); coluna++) {
+        for (int linha = 0; linha < getLastRow(); linha++) {
+            for (int coluna = 0; coluna < getLastColumn(); coluna++) {
                 if (roadMatrix[coluna][linha].getValue() != 0) {
                     Road destination;
                     Road beggining = roadMatrix[coluna][linha];

@@ -65,11 +65,11 @@ public class SystemService {
     }
 
     public int getColumn() {
-        return meshService.getColumn();
+        return meshService.getLastColumn();
     }
 
     public int getRow() {
-        return meshService.getRow();
+        return meshService.getLastRow();
     }
 
     public Object getCasa(int col, int row) {
