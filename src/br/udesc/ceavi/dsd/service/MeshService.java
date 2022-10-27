@@ -7,7 +7,6 @@ package br.udesc.ceavi.dsd.service;
 import br.udesc.ceavi.dsd.actions.Kill;
 import br.udesc.ceavi.dsd.actions.Move;
 import br.udesc.ceavi.dsd.actions.MoveThroughCrossroad;
-import br.udesc.ceavi.dsd.model.road.Crossroad;
 import br.udesc.ceavi.dsd.model.road.Road;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +66,7 @@ public class MeshService {
     private void initRoads() {
         for (int row = 0; row < matrix[0].length; row++) {
             for (int column = 0; column < matrix.length; column++) {
-                roadMatrix[column][row] = new Crossroad(column, row, matrix[column][row]);
+                roadMatrix[column][row] = new Road(column, row, matrix[column][row]);
                 int value = roadMatrix[column][row].getValue();
                 if (value == 1 || value == 2 || value == 3 || value == 4) {
                     validRoadsNumber++;

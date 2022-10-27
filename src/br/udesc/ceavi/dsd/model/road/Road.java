@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author davib
  */
-public abstract class Road {
+public class Road {
 
     private Car car;
     private int column;
@@ -123,7 +123,15 @@ public abstract class Road {
         return value;
     }
     
-    public abstract void move(Car car);
+    public void move(Car car) {
+        lock.lock();
+        Road casaAnterior = car.getRoad();
+        if (casaAnterior != null) {
+            casaAnterior.setCar(null);
+        }
+        car.setRoad(this);
+        setCar(car);
+    }
 
     public void repaint() {
         SystemService.getInstance().getMeshService().clearRoad(this.column, this.row);
