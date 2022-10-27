@@ -4,7 +4,7 @@
  */
 package br.udesc.ceavi.dsd.actions;
 
-import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.service.SystemService;
 import br.udesc.ceavi.dsd.model.car.Car;
 import br.udesc.ceavi.dsd.model.road.Road;
 
@@ -28,7 +28,7 @@ public class Kill implements ActionInterface {
         currentCarRoad.repaint();
 
         car.kill();
-        SystemController.getInstance().notifyCarDied(car);
+        SystemService.getInstance().notifyCarDied(car);
     }
 
 }

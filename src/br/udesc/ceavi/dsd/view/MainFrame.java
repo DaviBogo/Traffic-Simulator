@@ -1,6 +1,6 @@
 package br.udesc.ceavi.dsd.view;
 
-import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.service.SystemService;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -36,15 +36,15 @@ public class MainFrame extends JFrame implements MainFrameObserver {
     private JLabel lbCurrentlyNumberOfCars;
 
     private GridBagConstraints cons;
-    private SystemController controller;
+    private SystemService systemService;
     private MeshMatrix meshMatrix;
 
     public MainFrame() {
-        controller = SystemController.getInstance();
+        systemService = SystemService.getInstance();
         initFrameProperty();
         initComponnnets();
         initListeners();
-        controller.addObserver(this);
+        systemService.addObserver(this);
     }
 
     private void initFrameProperty() {
@@ -55,8 +55,8 @@ public class MainFrame extends JFrame implements MainFrameObserver {
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setTitle("Traffic Simulator");
             this.getContentPane().setLayout(new BorderLayout(1, 2));
-            this.controller.readFile("C:\\Users\\davib\\OneDrive\\Documentos\\Git\\Traffic-Simulator\\mesh\\malha-exemplo-1.txt");
-            this.controller.getMeshController().initMesh();
+            this.systemService.readFile("C:\\Users\\davib\\OneDrive\\Documentos\\Git\\Traffic-Simulator\\mesh\\malha-exemplo-3.txt");
+            this.systemService.getMeshService().initMesh();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,12 +197,12 @@ public class MainFrame extends JFrame implements MainFrameObserver {
         } catch (NumberFormatException e) {
             System.out.println("Simulação iniciará com apenas um carro");
         }
-        controller.startSimulation(numberOfCars);
+        systemService.startSimulation(numberOfCars);
     }
     
     private void btnStopListeners() {
         btnStop.setEnabled(false);
-        controller.stopRespawn();
+        systemService.stopRespawn();
     }
 
 }

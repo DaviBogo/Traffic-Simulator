@@ -1,7 +1,7 @@
 package br.udesc.ceavi.dsd.view;
 
-import br.udesc.ceavi.dsd.controller.MeshController;
-import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.service.MeshService;
+import br.udesc.ceavi.dsd.service.SystemService;
 import br.udesc.ceavi.dsd.util.Image;
 import java.awt.Color;
 import java.awt.Component;
@@ -24,21 +24,21 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class MeshMatrix extends JTable implements MatrixObserver {
 
-    private MeshController controller;
+    private MeshService meshService;
     private JPanel parentPanel;
     private BufferedImage[][] meshImages;
     private BufferedImage[][] canvas;
 
     public MeshMatrix(JPanel parent) {
-        this.controller = SystemController.getInstance().getMeshController();
-        this.controller.attach(this);
+        this.meshService = SystemService.getInstance().getMeshService();
+        this.meshService.attach(this);
         this.parentPanel = parent;
         startBuffert();
     }
 
     public void startBuffert() {
-        this.meshImages = new BufferedImage[controller.getColumn()][controller.getRow()];
-        this.canvas = new BufferedImage[controller.getColumn()][controller.getRow()];
+        this.meshImages = new BufferedImage[meshService.getColumn()][meshService.getRow()];
+        this.canvas = new BufferedImage[meshService.getColumn()][meshService.getRow()];
         this.initializeProperties();
         initImages();
 
@@ -64,10 +64,10 @@ public class MeshMatrix extends JTable implements MatrixObserver {
     }
 
     private void initImages() {
-        for (int colunm = 0; colunm < controller.getColumn(); colunm++) {
-            for (int row = 0; row < controller.getRow(); row++) {
-                meshImages[colunm][row] = Image.getImage((int) controller.getRoadValue(colunm, row));
-                canvas[colunm][row] = Image.getImage((int) controller.getRoadValue(colunm, row));
+        for (int colunm = 0; colunm < meshService.getColumn(); colunm++) {
+            for (int row = 0; row < meshService.getRow(); row++) {
+                meshImages[colunm][row] = Image.getImage((int) meshService.getRoadValue(colunm, row));
+                canvas[colunm][row] = Image.getImage((int) meshService.getRoadValue(colunm, row));
             }
         }
         this.repaint();
@@ -78,12 +78,12 @@ public class MeshMatrix extends JTable implements MatrixObserver {
 
         @Override
         public int getColumnCount() {
-            return controller.getColumn();
+            return meshService.getColumn();
         }
 
         @Override
         public int getRowCount() {
-            return controller.getRow();
+            return meshService.getRow();
         }
 
         @Override

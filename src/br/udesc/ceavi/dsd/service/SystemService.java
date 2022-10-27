@@ -1,4 +1,4 @@
-package br.udesc.ceavi.dsd.controller;
+package br.udesc.ceavi.dsd.service;
 
 import br.udesc.ceavi.dsd.factory.CrossroadFactory;
 import br.udesc.ceavi.dsd.model.car.Car;
@@ -21,18 +21,18 @@ import javax.swing.SwingUtilities;
  *
  * @author davib
  */
-public class SystemController {
+public class SystemService {
 
-    private static SystemController instance;
+    private static SystemService instance;
 
-    public static synchronized SystemController getInstance() {
+    public static synchronized SystemService getInstance() {
         if (instance == null) {
-            instance = new SystemController();
+            instance = new SystemService();
         }
         return instance;
     }
 
-    private MeshController meshController;
+    private MeshService meshService;
 
     private CrossroadFactory factory;
 
@@ -46,7 +46,7 @@ public class SystemController {
     private Map<Long, Car> carsOnMesh;
     private List<MainFrameObserver> observers;
 
-    private SystemController() {
+    private SystemService() {
         this.random = new Random();
         this.carsOnMesh = new HashMap<>();
         this.waitingCars = new HashMap<>();
@@ -57,7 +57,7 @@ public class SystemController {
 
     public void readFile(String text) throws Exception {
         ReadMatrixFile read = new ReadMatrixFile(text);
-        meshController = new MeshController(read.getMatrix());
+        meshService = new MeshService(read.getMatrix());
     }
 
     public boolean readySimulation() {
@@ -65,19 +65,19 @@ public class SystemController {
     }
 
     public int getColumn() {
-        return meshController.getColumn();
+        return meshService.getColumn();
     }
 
     public int getRow() {
-        return meshController.getRow();
+        return meshService.getRow();
     }
 
     public Object getCasa(int col, int row) {
-        return meshController.getRoadValue(col, row);
+        return meshService.getRoadValue(col, row);
     }
 
-    public MeshController getMeshController() {
-        return meshController;
+    public MeshService getMeshService() {
+        return meshService;
     }
 
     public CrossroadFactory getFactory() {
@@ -85,7 +85,7 @@ public class SystemController {
     }
 
     public void rebutMesh() {
-        this.meshController.removeObservers();
+        this.meshService.removeObservers();
     }
 
     public void startSimulation(int numeroCarro) {
@@ -103,7 +103,7 @@ public class SystemController {
     private void newCarOnMesh() {
         Car car = new Car();
         waitingCars.put(car.getId(), car);
-        car.enterSimulation(meshController.getRandomRespawn());
+        car.enterSimulation(meshService.getRandomRespawn());
     }
 
     public void notifyEnteredMesh(Car car) {
@@ -129,7 +129,7 @@ public class SystemController {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(SystemController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SystemService.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -141,7 +141,7 @@ public class SystemController {
             try {
                 value.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(SystemController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SystemService.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 

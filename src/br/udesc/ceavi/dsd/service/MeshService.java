@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.udesc.ceavi.dsd.controller;
+package br.udesc.ceavi.dsd.service;
 
 import br.udesc.ceavi.dsd.actions.Kill;
 import br.udesc.ceavi.dsd.actions.Move;
@@ -19,7 +19,7 @@ import br.udesc.ceavi.dsd.view.MatrixObserver;
  *
  * @author davib
  */
-public class MeshController {
+public class MeshService {
 
     private int[][] matrix;
     private int validRoadsNumber;
@@ -32,7 +32,7 @@ public class MeshController {
 
     private Random random;
 
-    public MeshController(int[][] matrix) {
+    public MeshService(int[][] matrix) {
         this.matrix = matrix;
         this.observers = new ArrayList<>();
         this.roadMatrix = new Road[matrix.length][matrix[0].length];
@@ -65,7 +65,7 @@ public class MeshController {
     }
 
     private void initRoads() {
-        AbstractFactory factory = SystemController.getInstance().getFactory();
+        AbstractFactory factory = SystemService.getInstance().getFactory();
         for (int row = 0; row < matrix[0].length; row++) {
             for (int column = 0; column < matrix.length; column++) {
                 roadMatrix[column][row] = factory.createRoad(column, row, matrix[column][row]);

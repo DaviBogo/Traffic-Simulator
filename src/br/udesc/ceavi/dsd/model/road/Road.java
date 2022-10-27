@@ -6,7 +6,7 @@ package br.udesc.ceavi.dsd.model.road;
 
 import br.udesc.ceavi.dsd.model.car.Car;
 import br.udesc.ceavi.dsd.actions.ActionInterface;
-import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.service.SystemService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -126,9 +126,9 @@ public abstract class Road {
     public abstract void move(Car car);
 
     public void repaint() {
-        SystemController.getInstance().getMeshController().clearRoad(this.column, this.row);
+        SystemService.getInstance().getMeshService().clearRoad(this.column, this.row);
         if (car != null) {
-            SystemController.getInstance().getMeshController().printRoadCar(car.getRgb(), this.column, this.row);
+            SystemService.getInstance().getMeshService().printRoadCar(car.getRgb(), this.column, this.row);
         }
     }
 }

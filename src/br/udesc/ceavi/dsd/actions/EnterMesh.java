@@ -4,7 +4,7 @@
  */
 package br.udesc.ceavi.dsd.actions;
 
-import br.udesc.ceavi.dsd.controller.SystemController;
+import br.udesc.ceavi.dsd.service.SystemService;
 import br.udesc.ceavi.dsd.model.car.Car;
 import br.udesc.ceavi.dsd.model.road.Road;
 
@@ -24,13 +24,13 @@ public class EnterMesh implements ActionInterface {
             
     @Override
     public void execute() {
-        SystemController system = SystemController.getInstance();
+        SystemService system = SystemService.getInstance();
         do {
             if (road.stopRoad()) {
                 road.setCar(car);
                 car.setRoad(road);
             } else {
-                road = system.getMeshController().getRandomRespawn();
+                road = system.getMeshService().getRandomRespawn();
             }
         } while (car.getRoad() == null);
         road.repaint();
