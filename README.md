@@ -8,3 +8,6 @@ Cada carro fica localizado em uma Thread única e a medida que sua passagem é l
 
 A malha conta com padrão de projetos Observer para ser atualizada para cada movimentação dos carros.
 O movimento do carro é feito com padrão de projetos Strategy
+
+![image](https://github.com/DaviBogo/Traffic-Simulator/assets/43791467/1bde7aaa-f735-4111-bbb1-ece9fcae0042)
+Pequena demonstração de uso.
